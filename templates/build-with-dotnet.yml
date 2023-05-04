@@ -1,11 +1,11 @@
 parameters:
-  buildConfiguration: 'Release'
-  # - name: buildConfiguration
-  #   type: string
-  #   default: 'Release'
-  #   values:
-  #     - 'Release'
-  #     - 'Debug'
+  # buildConfiguration: 'Release'
+  - name: buildConfiguration
+    type: string
+    default: 'Release'
+    values:
+      - 'Release'
+      - 'Debug'
 
 steps:
 - task: DotNetCoreCLI@2
