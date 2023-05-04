@@ -1,24 +1,25 @@
 parameters:
-  - name: buildConfiguration
-    type: string
-    default: 'Release'
-    values:
-      - 'Release'
-      - 'Debug'
+  buildConfiguration: 'Release'
+  # - name: buildConfiguration
+  #   type: string
+  #   default: 'Release'
+  #   values:
+  #     - 'Release'
+  #     - 'Debug'
 
 steps:
 - task: DotNetCoreCLI@2
-  displayName: 'Build the project - ${{ parameters.buildConfiguratio }}'
+  displayName: 'Build the project - ${{ parameters.buildConfiguration }}'
   inputs:
     command: build
-    arguments: '--no-restore --configuration ${{ parameters.buildConfiguratio }}'
+    arguments: '--no-restore --configuration ${{ parameters.buildConfiguration }}'
     projects:  '**/*.csproj'
 
 - task: DotNetCoreCLI@2
-  displayName: 'Publish the project - ${{ parameters.buildConfiguratio }}'
+  displayName: 'Publish the project - ${{ parameters.buildConfiguration }}'
   inputs:
     command: publish
     projects:  '**/*.csproj'
     publishWebProjects: false
-    arguments: '--no-build --configuration ${{ parameters.buildConfiguratio }} --output $(Build.ArtifactStagingDirectory)/${{ parameters.buildConfiguratio }}'
+    arguments: '--no-build --configuration ${{ parameters.buildConfiguration }} --output $(Build.ArtifactStagingDirectory)/${{ parameters.buildConfiguration }}'
     zipAfterPublish: true
