@@ -80,9 +80,10 @@ steps:
       -targetdir:$(Build.SourcesDirectory)/CodeCoverage
       -reporttypes: HtmlInline_AzurePipelines
       
-- task: PublishCodeCoverageResults@2
+- task: PublishCodeCoverageResults@1
   displayName: 'Publish code coverage report'
   inputs:
+    codeCoverageTool: Cobertura
     summaryFileLocation: '$(Build.SourcesDirectory)/**/coverage.cobertura.xml'
 
 - task: DotNetCoreCLI@2
