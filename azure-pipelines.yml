@@ -62,9 +62,9 @@ steps:
   inputs:
     command: 'test'
     arguments: >
-      --no-build --configuration $(buildConfiguration) \
-      /p:CollectCoverage=true \
-      /p:CoverletOutputFormat=coberture \
+      --no-build --configuration $(buildConfiguration)
+      /p:CollectCoverage=true
+      /p:CoverletOutputFormat=coberture
       /p:CoverletOutput=$(Build.SourcesDirectory)/TestResults/Coverage/
     publishTestResults: true
     projects: '**/*.Tests.csproj'
