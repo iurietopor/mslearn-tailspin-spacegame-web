@@ -49,6 +49,18 @@ steps:
     command: 'build'
     arguments: '--no-restore --configuration $(buildConfiguration)'
     projects: '**/*.csproj'
+    versioningScheme: byPrereleaseNumber
+    majorVersion: '1'
+    minorVersion: '0'
+    patchVersion: '0'
+
+- task: NuGetCommand@2
+  displayName: 'Publish NuGet package'
+  inputs:
+    command: push
+    feedPublish: '$(System.TeamProject)/Tailspin.SpaceGame.Web.Models'
+    allowPackageConflicts: true
+  condition: succeeded()
 
 - task: DotNetCoreCLI@2
   displayName: 'Install .NET tools from local manifest'
