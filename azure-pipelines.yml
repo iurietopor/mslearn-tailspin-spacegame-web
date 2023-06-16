@@ -7,9 +7,9 @@ trigger:
 - '*'
 
 pool:
-  vmImage: "ubuntu-22.04"
+  vmImage: 'ubuntu-22.04'
   demands:
-    - npm
+  - npm
 
 variables:
   buildConfiguration: 'Release'
@@ -22,6 +22,10 @@ steps:
   inputs:
     version: '$(dotnetSdkVersion)'
 
+- task: NuGetToolInstaller@0
+  inputs:
+    versionSpec: '5.9.1'
+
 - task: Npm@1
   displayName: 'Run npm install'
   inputs:
@@ -31,17 +35,19 @@ steps:
   displayName: 'Compile Sass assets'
 
 - task: gulp@1
-  displayName: 'Run gulp task'
+  displayName: 'Run gulp tasks'
 
 - script: 'echo "$(Build.DefinitionName), $(Build.BuildId), $(Build.BuildNumber)" > buildinfo.txt'
   displayName: 'Write build info'
   workingDirectory: $(wwwrootDir)
 
-- task: DotNetCoreCLI@2
+- task: NuGetCommand@2
   displayName: 'Restore project dependencies'
   inputs:
-    command: restore
-    projects: '**/*.csproj'
+    command: 'restore'
+    restoreSolution: '**/*.sln'
+    feedsToUse: 'select'
+    vstsFeed: '$(System.TeamProject)/Tailspin.SpaceGame.Web.Models'
 
 - task: DotNetCoreCLI@2
   displayName: 'Build the project - $(buildConfiguration)'
@@ -93,8 +99,8 @@ steps:
     projects: '**/*.csproj'
     publishWebProjects: false
     arguments: '--no-build --configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)/$(buildConfiguration)'
-    zipAfterPublish: true   
+    zipAfterPublish: true
 
 - task: PublishBuildArtifacts@1
-  displayName: 'Publish artifact: drop'
+  displayName: 'Publish Artifact: drop'
   condition: succeeded()
